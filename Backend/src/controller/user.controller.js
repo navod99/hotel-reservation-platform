@@ -20,9 +20,21 @@ const createUser = async (req,res)=>{
     }
 }
 
+const validateUser = async (req,res)=>{
+    let email = req.body.email;
+    await User.findOne({email:email},(err,result)=>{
+        if(err){
+            console.log(err);
+        }else{
+            const user = result;
+            res.send(user);
+        }
+    });
+}
+
 
 
 module.exports = {
     createUser,
-    
+    validateUser
 }
