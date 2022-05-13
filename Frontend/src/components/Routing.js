@@ -4,6 +4,7 @@ import {
     Routes,
     Route,
 } from "react-router-dom";
+import Addhotel from './Addhotel';
 import Home from './Home';
 import Login from './Login';
 import Signup from './Signup';
@@ -16,6 +17,7 @@ const Routing = () => {
                 <Route path='/' exact element= {<Home/>}/>
                 <Route path='/login' exact element= {<Login/>}/>
                 <Route path='/signup' exact element= {<Signup/>}/>
+                <Route path = '/addhotel' exact element={<Addhotel/>}/>
               
 
             </Routes>
