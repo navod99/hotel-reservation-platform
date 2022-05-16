@@ -44,7 +44,7 @@ const Login = () => {
                         navigate('/')
                         break;
                     case "systemadmin":
-
+                        navigate('/admindashboard')
                         break;
                     case "hoteladmin":
 
