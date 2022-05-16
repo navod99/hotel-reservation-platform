@@ -9,6 +9,7 @@ import Login from './Login';
 import AddReservation from './Reservation/AddReservation.js'
 import Date from './Reservation/date.js'
 import Signup from './Signup';
+import Dashboard from './SysAdmin/Dashboard';
 
 const Routing = () => {
 
@@ -19,6 +20,7 @@ const Routing = () => {
                 <Route path='/login' exact element= {<Login/>}/>
               <Route path ='/AddReservation'exact element= {<AddReservation/>}/>
                 <Route path='/signup' exact element= {<Signup/>}/>
+                <Route path='/admindashboard' exact element= {<Dashboard/>}/>
               
 
             </Routes>
