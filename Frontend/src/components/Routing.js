@@ -10,7 +10,7 @@ import AddReservation from './Reservation/AddReservation.js'
 import Date from './Reservation/date.js'
 import Signup from './Signup';
 import Dashboard from './SysAdmin/Dashboard';
-
+import ViewBooking from './Reservation/ViewBoking'
 const Routing = () => {
 
     return (
@@ -21,7 +21,7 @@ const Routing = () => {
               <Route path ='/AddReservation'exact element= {<AddReservation/>}/>
                 <Route path='/signup' exact element= {<Signup/>}/>
                 <Route path='/admindashboard' exact element= {<Dashboard/>}/>
-              
+              <Route path='/mybooking' exact element = {<ViewBooking/>}/>
 
             </Routes>
         </BrowserRouter>

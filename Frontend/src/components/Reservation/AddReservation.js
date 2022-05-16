@@ -19,7 +19,8 @@ import Footer from "../Footer/Footer";
 import { Stack } from "@mui/material";
 import { spacing } from "@mui/system";
 import { useState } from "react";
-import axios  from 'axios';
+import axios from 'axios';
+
 //import { AdapterDayjs } from '@mui//AdapterDayjs'
 // import { MobileDatePicker } from '@mui/x-date-pickers/MobileDatePicker';
 export default function ImgMediaCard() {
@@ -28,17 +29,20 @@ export default function ImgMediaCard() {
   const [checkinDate, setCheckInDate] = useState('');
   const [checkOutDate, setCheckOutDate] = useState('');
   const [noofRooms, setnoofRooms] = useState('');
+  const user =  JSON.parse (sessionStorage.getItem("token"))
   const submit = () => {
+    console.log(user.id)
     const reservation = {
       AdultCount: AdultCount,
       ChildCount: ChildCount,
       CheckinDate: checkinDate,
       ChekoutDate: checkOutDate,
-      numberOfRooms: noofRooms
+      numberOfRooms: noofRooms,
+      UserId:user.id
     };
     console.log(checkOutDate)
     axios
-      .post('http://localhost:5000/reservation/create', reservation)
+      .post('http://localhost:5001/reservation/create', reservation)
       .then(alert('sucessfully added the reservation'))
     .catch((err)=>{alert(err)})
     

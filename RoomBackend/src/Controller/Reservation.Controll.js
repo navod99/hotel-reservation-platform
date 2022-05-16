@@ -12,7 +12,22 @@ const viewReservations = async (req, res) => {
     Reservation.find()
     .then((data)=>{res.send(data)})
 }
+const getReservationsByUser = async (req, res) => {
+    const id = req.params.id
+    await Reservation.find({ UserId: id })
+        .then((data) => { res.status(200).send(data) })
+    .catch((err)=> console.log(err))
+}
+const deleteReservation = async (req, res) => {
+    const id = req.params.id
+    console.log(id)
+    await Reservation.findByIdAndDelete( req.params.id )
+        .then(() => { res.status(200).send("Deleted") })
+    .catch((err)=>console.log(err))
+}
 module.exports = {
     addReservation,
-    viewReservations
+    viewReservations,
+    getReservationsByUser,
+    deleteReservation
 };
