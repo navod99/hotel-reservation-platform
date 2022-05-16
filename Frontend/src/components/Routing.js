@@ -8,6 +8,8 @@ import Home from './Home';
 import Login from './Login';
 import AddReservation from './Reservation/AddReservation.js'
 import Date from './Reservation/date.js'
+import Signup from './Signup';
+
 const Routing = () => {
 
     return (
@@ -16,6 +18,8 @@ const Routing = () => {
                 <Route path='/' exact element= {<Home/>}/>
                 <Route path='/login' exact element= {<Login/>}/>
               <Route path ='/AddReservation'exact element= {<AddReservation/>}/>
+                <Route path='/signup' exact element= {<Signup/>}/>
+              
 
             </Routes>
         </BrowserRouter>

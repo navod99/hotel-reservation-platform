@@ -18,9 +18,34 @@ import Header from "../Header/Header";
 import Footer from "../Footer/Footer";
 import { Stack } from "@mui/material";
 import { spacing } from "@mui/system";
+import { useState } from "react";
+import axios  from 'axios';
 //import { AdapterDayjs } from '@mui//AdapterDayjs'
 // import { MobileDatePicker } from '@mui/x-date-pickers/MobileDatePicker';
 export default function ImgMediaCard() {
+  const [AdultCount, setAdultCount] = useState('');
+  const [ChildCount, setChildCount] = useState('0');
+  const [checkinDate, setCheckInDate] = useState('');
+  const [checkOutDate, setCheckOutDate] = useState('');
+  const [noofRooms, setnoofRooms] = useState('');
+  const submit = () => {
+    const reservation = {
+      AdultCount: AdultCount,
+      ChildCount: ChildCount,
+      CheckinDate: checkinDate,
+      ChekoutDate: checkOutDate,
+      numberOfRooms: noofRooms
+    };
+    console.log(checkOutDate)
+    axios
+      .post('http://localhost:5000/reservation/create', reservation)
+      .then(alert('sucessfully added the reservation'))
+    .catch((err)=>{alert(err)})
+    
+    
+
+}
+
   return (
     <Stack spacing={2}>
       <Header />
@@ -60,6 +85,8 @@ export default function ImgMediaCard() {
                     variant="standard"
                     type="number"
                     size="medium"
+                    value={AdultCount}
+                    onChange = {(e)=>setAdultCount(e.target.value)}
                   />
                 </Box>
               </FormControl>
@@ -74,6 +101,8 @@ export default function ImgMediaCard() {
                     variant="standard"
                     type="number"
                     size="medium"
+                    value={ChildCount}
+                    onChange = {(e)=>setChildCount(e.target.value)}
                   />
                 </Box>
               </FormControl>
@@ -87,6 +116,8 @@ export default function ImgMediaCard() {
                     label="Number of Rooms"
                     variant="standard"
                     size="medium"
+                    value={noofRooms}
+                    onChange = {(e)=>{setnoofRooms(e.target.value)}}
                   />
                 </Box>
               </FormControl>
@@ -98,7 +129,8 @@ export default function ImgMediaCard() {
                 </InputLabel>
                 <Input
                   id="input-with-icon-adornment"
-                  
+                  value = {checkinDate}
+                  onChange = {(e)=>setCheckInDate(e.target.value)}
                   startAdornment={
                     <InputAdornment position="start">
                       <AccountCircle />
@@ -114,7 +146,8 @@ export default function ImgMediaCard() {
                 </InputLabel>
                 <Input
                   id="input-with-icon-adornment"
-                                                                                         
+                     value={checkOutDate}
+                     onChange = {(e)=> setCheckOutDate(e.target.value)}                                                                    
                   startAdornment={
                     <InputAdornment position="start">
                       <AccountCircle />
@@ -127,8 +160,8 @@ export default function ImgMediaCard() {
             </Box>
           </CardContent>
           <CardActions>
-            <Button size="small">Back</Button>
-            <Button size="small">Reserve</Button>
+            <Button size="small" >Back</Button>
+            <Button size="small" onClick={submit}>Reserve</Button>
           </CardActions>
         </Card>
       </Grid>
