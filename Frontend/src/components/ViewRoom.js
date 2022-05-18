@@ -19,11 +19,14 @@ export default function ViewRoom() {
   
   const [rooms, setRooms] = useState([]);
     const params = useParams();
-    const token = sessionStorage.getItem("token")
-    const navigate = useNavigate();
-    const reserve = () => {
-        if (token.id != null) {
-            navigate('/')
+    const token = JSON.parse (sessionStorage.getItem("token"))
+  const navigate = useNavigate();
+  
+    const reserve = (hotelID) => {
+        if (token != null) {
+            navigate(`/AddReservation/${hotelID}`)
+      }else{
+        alert('Please Login First')
         }
         
     }
@@ -40,7 +43,7 @@ export default function ViewRoom() {
                     });
             };
             getrooms();
-        }
+        },[]
     );
     
   return (
@@ -88,7 +91,7 @@ export default function ViewRoom() {
                     </CardContent>
                     
                      
-                              <Button variant="contained" color="success" onClick={() => reserve()}>Reserve {room.pricepernight}</Button>
+                              <Button variant="contained" color="success" onClick={() => reserve(room.hotelID)}>Reserve {room.pricepernight}</Button>
                        
                         
                         

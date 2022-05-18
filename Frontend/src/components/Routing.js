@@ -23,7 +23,7 @@ const Routing = () => {
             <Routes>
                 <Route path='/' exact element= {<Home/>}/>
                 <Route path='/login' exact element= {<Login/>}/>
-              <Route path ='/AddReservation'exact element= {<AddReservation/>}/>
+              <Route path ='/AddReservation/:id'exact element= {<AddReservation/>}/>
                 <Route path='/signup' exact element= {<Signup/>}/>
                 <Route path='/admindashboard' exact element= {<Dashboard/>}/>
                 <Route path='/mybooking' exact element={<ViewBooking />} />

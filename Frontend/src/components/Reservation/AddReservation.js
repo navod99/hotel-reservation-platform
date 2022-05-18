@@ -32,7 +32,9 @@ export default function ImgMediaCard() {
   const [checkinDate, setCheckInDate] = useState(res != null ? res.checkinDate : "");
   const [checkOutDate, setCheckOutDate] = useState(res != null ? res.ChekoutDate : "");
   const [noofRooms, setnoofRooms] = useState(res != null ? res.numberOfRooms : "");
-  const user =  JSON.parse (sessionStorage.getItem("token"))
+  const params = useParams()
+  const user = JSON.parse(sessionStorage.getItem("token"))
+  console.log(params.id)
   const submit = () => {
     console.log(user.id)
     const reservation = {
@@ -41,7 +43,8 @@ export default function ImgMediaCard() {
       CheckinDate: checkinDate,
       ChekoutDate: checkOutDate,
       numberOfRooms: noofRooms,
-      UserId:user.id
+      UserId: user.id,
+      HotelId: params.id
     };
     console.log(checkOutDate)
     if (res == null) {
@@ -175,8 +178,8 @@ export default function ImgMediaCard() {
             </Box>
           </CardContent>
           <CardActions>
-            <Button size="small" >Back</Button>
-            <Button size="small" onClick={submit}>Reserve</Button>
+            
+            <Button variant="contained" color="success" onClick={submit}>Reserve</Button>
           </CardActions>
         </Card>
       </Grid>
