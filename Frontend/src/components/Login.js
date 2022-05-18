@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -13,10 +13,73 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import coconut from './Images/cocunut.jpg'
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+const bcrypt = require('bcryptjs');
+
 
 const Login = () => {
     const theme = createTheme();
+    const [email, setEmail] = useState('')
+    const [password, setPassword] = useState('')
+    const [toggle, setToggle] = useState(false);
+    const navigate = useNavigate()
 
+    const handleLogin = (e) => {
+        e.preventDefault()
+
+        axios.post("http://localhost:5000/user/validate", { email: email }).then((res) => {
+            let hashPass = res.data.password;
+            const isValid = bcrypt.compareSync(password, hashPass);
+            if (isValid) {
+                const token = {
+                    id: res.data._id,
+                    firstname: res.data.firstName,
+                    lastname: res.data.lastName,
+                    email: res.data.email,
+                    type: res.data.type
+                }
+                sessionStorage.setItem("token", JSON.stringify(token));
+                switch (token.type) {
+                    case "customer":
+                        navigate('/')
+                        break;
+                    case "systemadmin":
+                        navigate('/admindashboard')
+                        break;
+                    default:
+                        setToggle(true)
+                        break;
+                }
+            }
+            else {
+                alert('Invalid credentials')
+            }
+        }
+        ).catch(() => {
+            axios.post("http://localhost:5000/hotel/validate", { email: email }).then((res) => {
+                let hashPass = res.data.password;
+                const isValid = bcrypt.compareSync(password, hashPass);
+                if (isValid) {
+                    const token = {
+                        id: res.data._id,
+                        firstname: res.data.firstName,
+                        lastname: res.data.lastName,
+                        email: res.data.email,
+                        type: res.data.type
+                    }
+                    sessionStorage.setItem("token", JSON.stringify(token));
+                    navigate('/hoteladmindashboard')
+                }
+                else {
+                    alert('Invalid credentials')
+                }
+            }
+            ).catch((err) => {
+                console.log(err)
+            })
+        })
+    }
 
     return (
         <ThemeProvider theme={theme}>
@@ -61,6 +124,8 @@ const Login = () => {
                                 label="Email Address"
                                 name="email"
                                 autoComplete="email"
+                                onChange={(e) => setEmail(e.target.value)}
+                                value={email}
                                 autoFocus
                             />
                             <TextField
@@ -71,6 +136,8 @@ const Login = () => {
                                 label="Password"
                                 type="password"
                                 id="password"
+                                onChange={(e) => setPassword(e.target.value)}
+                                valur={password}
                                 autoComplete="current-password"
                             />
                             <FormControlLabel
@@ -81,6 +148,7 @@ const Login = () => {
                                 type="submit"
                                 fullWidth
                                 variant="contained"
+                                onClick={handleLogin}
                                 sx={{ mt: 3, mb: 2 }}
                             >
                                 Sign In

@@ -26,7 +26,7 @@ const Header = () => {
                     </Typography>
                     <nav>
                         <Link
-                          to='/dsad'
+                          to='/viewhotels'
                           style={{color:'white',textDecoration:'none',margin:'0.5rem'}}
                         >
                             View Hotels
