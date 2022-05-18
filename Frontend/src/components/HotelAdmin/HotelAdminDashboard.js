@@ -12,25 +12,19 @@ import Divider from '@material-ui/core/Divider';
 import IconButton from '@material-ui/core/IconButton';
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
-import Link from '@material-ui/core/Link';
 import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
-import { useHistory, useLocation } from "react-router-dom";
-import CreditCardIcon from '@mui/icons-material/CreditCard';
-import ExploreIcon from '@mui/icons-material/Explore';
-import MonetizationOnIcon from '@mui/icons-material/MonetizationOn';
-import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
-import DashboardView from './DashboardView';
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import MenuIcon from '@mui/icons-material/Menu';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import AddIcon from '@mui/icons-material/Add';
-import AddHotels from './AddHotels';
+import BookIcon from '@mui/icons-material/Book';
 import PreviewIcon from '@mui/icons-material/Preview';
-import ViewHotels from './ViewHotels';
+import axios from 'axios';
+import DashboardView from './DashboardView';
+import Addroom from '../Addroom'
 import { useNavigate } from 'react-router-dom';
-
 const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
@@ -117,13 +111,15 @@ const useStyles = makeStyles((theme) => ({
 
 }));
 
-const Dashboard = () => {
-    const navgate = useNavigate();
+const HotelAdminDAshboard = () => {
 
-    const logout = () => {
+    const navgate = useNavigate();
+    
+ const logout = () => {
         sessionStorage.removeItem("token")
         navgate('/login')
     }
+
     const classes = useStyles();
     const [header, setHeader] = useState({
         title: "Dashboard",
@@ -131,19 +127,32 @@ const Dashboard = () => {
     });
     const [open, setOpen] = React.useState(true);
     const [view, setView] = useState(null);
+    let hotel = JSON.parse(sessionStorage.getItem("token"))
+    const[hotelDetails,setHotelDetails] = useState()
 
     useEffect(() => {
         // if(!token){
         //     history.push("/");
         // }
-        setView(<DashboardView />);
+        // setView(<DashboardView />);
+        function getHotels() {
+          axios.get(`http://localhost:5000/hotel/${hotel.id}`).then((res) => {
+            setHotelDetails(res.data);
+
+          }).catch((err) => {
+            alert(err.message);
+            console.log(err.message);
+          })
+        }
+        getHotels()
+        
         setHeader({ title: 'Dashboard', icon: <DashboardIcon /> });
     }, []);
 
     const mainListItems = (
         <div>
             <ListItem button onClick={() => {
-                setView(<DashboardView />);
+                 setView(<DashboardView hotelDetails={hotelDetails} />);
                 setHeader({ title: 'Dashboard', icon: <DashboardIcon /> });
             }}>
                 <ListItemIcon className={classes.ListItemIcon}>
@@ -152,27 +161,37 @@ const Dashboard = () => {
                 <ListItemText primary="Dashboard" />
             </ListItem>
             <ListItem button onClick={() => {
-                setView(<AddHotels />);
-                setHeader({ title: 'Add Hotels', icon: <AddIcon /> });
+                setView(<Addroom />);
+                setHeader({ title: 'Add Package', icon: <AddIcon /> });
             }}>
                 <ListItemIcon className={classes.ListItemIcon}>
                     <AddIcon />
                 </ListItemIcon>
-                <ListItemText primary="Add Hotels" />
+                <ListItemText primary="Add Package" />
             </ListItem>
             <ListItem button onClick={() => {
-                setView(<ViewHotels />);
-                setHeader({
-                    title: 'View Hotels', icon: <PreviewIcon />
-                });
+                // setView(<ViewHotels />);
+                setHeader({ title: 'View Packages', icon: <PreviewIcon /> });
             }}>
                 <ListItemIcon className={classes.ListItemIcon}>
                     <PreviewIcon />
                 </ListItemIcon>
-                <ListItemText primary="View Hotels" />
-               
+                <ListItemText primary="View Packages" />
             </ListItem>
-            <button onClick={logout}>Logout</button>
+            <ListItem button onClick={() => {
+                // setView(<ViewHotels />);
+                setHeader({ title: 'Manage Bookings', icon: <BookIcon /> });
+            }}>
+                <ListItemIcon className={classes.ListItemIcon}>
+                    <BookIcon />
+                </ListItemIcon>
+                <ListItemText primary="Manage Bookings" />
+            </ListItem>
+            <ListItem>
+                <button onClick={logout}>
+                    logout
+                </button>
+            </ListItem>
 
         </div>
     );
@@ -260,4 +279,4 @@ const Dashboard = () => {
     )
 }
 
-export default Dashboard
+export default HotelAdminDAshboard

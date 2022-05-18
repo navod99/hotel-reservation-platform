@@ -31,7 +31,7 @@ const Header = () => {
                     </Typography>
                     <nav>
                         <Link
-                          to='/AddReservation'
+                          to='/viewhotels'
                           style={{color:'white',textDecoration:'none',margin:'0.5rem'}}
                         >
                             View Hotels
