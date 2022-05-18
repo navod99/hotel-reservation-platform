@@ -13,7 +13,12 @@ const Header = () => {
     const goToLogin = () => {
         navigate('/login')
     }
-    
+    const Logout = ()=>{
+        sessionStorage.removeItem("token")
+        alert("Logout")
+         navigate('/login')
+    }
+    const token = JSON.parse(sessionStorage.getItem("token"))
     return ( 
             <AppBar
                 position="sticky"
@@ -32,7 +37,7 @@ const Header = () => {
                             View Hotels
                         </Link>
                         <Link
-                          to='/'
+                          to='/mybooking'
                           style={{color:'white',textDecoration:'none',marginTop:1,margin:'0.5rem'}}
                         >
                             View Bookings
@@ -43,10 +48,14 @@ const Header = () => {
                         >
                             About US
                         </Link>
-                    </nav>
-                    <Button variant="contained" startIcon={<LoginIcon/>} sx={{ my: 1, mx: 1.5 }} onClick={goToLogin}>
+                </nav>
+                {token == null ?
+                    <Button variant="contained" startIcon={<LoginIcon />} sx={{ my: 1, mx: 1.5 }} onClick={goToLogin}>
                         Login
-                    </Button>
+                    </Button> :
+                    <Button variant="contained" startIcon={<LoginIcon />} sx={{ my: 1, mx: 1.5 }} onClick={Logout}>
+                        Logout
+                    </Button>}
                 </Toolbar>
             </AppBar>
 

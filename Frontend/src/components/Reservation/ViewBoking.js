@@ -7,51 +7,51 @@ import CardMedia from "@mui/material/CardMedia";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import Stack from "@mui/material/Stack";
-import Header from "./Header/Header";
-import Footer from "./Footer/Footer";
+import Header from "../Header/Header";
+import Footer from "../Footer/Footer";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { Button, CardActions } from "@mui/material";
 import { Link } from "react-router-dom";
-import { useParams } from "react-router-dom";
-export default function ViewRoom() {
-  
-  const [rooms, setRooms] = useState([]);
-    const params = useParams();
-    const token = JSON.parse (sessionStorage.getItem("token"))
+
+export default function MediaControlCard() {
+  const token = JSON.parse(sessionStorage.getItem("token"));
+  const [reservations, setReservations] = useState([]);
+  const theme = useTheme();
   const navigate = useNavigate();
-  
-    const reserve = (hotelID) => {
-        if (token != null) {
-            navigate(`/AddReservation/${hotelID}`)
-      }else{
-        alert('Please Login First')
-        }
-        
-    }
     useEffect(() => {
-       
-            const getrooms = () => {
+        if (token != null) {
+            const getBooking = () => {
                 axios
-                    .get(`http://localhost:8000/hotel/get/${params.id}`)
+                    .get(`http://localhost:5001/reservation/user/${token.id}`)
                     .then((res) => {
-                        setRooms(res.data);
+                        setReservations(res.data);
                     })
                     .catch((err) => {
                         alert(err);
                     });
             };
-            getrooms();
-        },[]
-    );
-    
+            getBooking();
+        }
+    } );
+    const onDelete = (rID) => {
+       
+        axios.delete(`http://localhost:5001/reservation/delete/${rID}`)
+            .then(alert("Sucessfully Deleted"))
+            .catch((err) => { alert(err) })
+        
+  }
+  const onEdit = (res) => {
+    sessionStorage.setItem("res", JSON.stringify(res))
+    navigate('/Edit')
+  }
   return (
     <>
-       
+      {token != null ? (
         <Stack spacing={3}>
           <Header />
-          {rooms.map((room)=>(
+          {reservations.map((reservation) => (
             <Grid container justifyContent="center">
               <Card sx={{ display: "flex" }}>
                 <CardMedia
@@ -64,38 +64,43 @@ export default function ViewRoom() {
                   <Stack spacing={2}>
                     <CardContent sx={{ flex: "1 0 auto" }}>
                       <Typography component="div" variant="h3">
-                        {room.roomname}
+                        Hotel
                       </Typography>
-                     
-                        
+                      <Grid container spacing={2}>
+                        <Grid item xs={4}>
                           <Typography>
-                            occupants: {room.occupants}
+                            Number of Rooms: {reservation.numberOfRooms}{" "}
                           </Typography>
-                        
-                        
+                        </Grid>
+                        <Grid item xs={4}>
                           <Typography>
-                           area: {room.area}
+                            Adult Count: {reservation.AdultCount}
                           </Typography>
-                       
-                       
+                        </Grid>
+                        <Grid item xs={4}>
                           <Typography component="div">
-                            description: {room.description}
+                            Child Count: {reservation.ChildCount}
                           </Typography>
-                        
+                        </Grid>
+                        <Grid item xs={4}>
                           <Typography component="div">
-                            Number of Rooms: {room.numberofrooms}
+                            Check in Date: {reservation.CheckinDate}
                           </Typography>
-                       
-                        
-                      
+                        </Grid>
+                        <Grid item xs={4}>
+                          <Typography component="div">
+                            Check out Date {reservation.CheckoutDate}
+                          </Typography>
+                        </Grid>
+                      </Grid>
                     </CardContent>
-                    
+                    <Grid>
                      
-                              <Button variant="contained" color="success" onClick={() => reserve(room.hotelID)}>Reserve {room.pricepernight}</Button>
+                        <Button onClick={()=>onEdit(reservation)}>Edit</Button>
                        
+                        <Button color="error" onClick={() => onDelete(reservation._id)}>Cancel</Button>
                         
-                        
-                    
+                    </Grid>
                   </Stack>
                 </Box>
               </Card>
@@ -103,7 +108,11 @@ export default function ViewRoom() {
           ))}
           <Footer />
         </Stack>
-      
+      ) : (
+        () => {
+          navigate("/login");
+        }
+      )}
     </>
   );
 }
