@@ -13,7 +13,8 @@ function Addroom() {
     const [description , setDescription] = useState("");
     const [numberofrooms , setNumberofrooms] = useState("");
     const [pricepernight , setPricepernight] = useState("");
-
+   const token = JSON.parse(sessionStorage.getItem("token"));
+   const hotelID = token.id
         function sendData(e){
            e.preventDefault();
 
@@ -23,8 +24,8 @@ function Addroom() {
             area,
             description,
             numberofrooms,
-            pricepernight
-
+            pricepernight,
+            hotelID
            }
            
            axios.post("http://localhost:8000/hotel/add", newHotel).then(() =>{
@@ -42,7 +43,7 @@ function Addroom() {
      return (
 
         <div>
-        <Header/>
+        
         <Grid>
             <Paper elevation={20} style={paperStyle}>
                 <Grid align='center'>
@@ -92,7 +93,7 @@ function Addroom() {
                 </form>
             </Paper>
         </Grid>
-         <Footer/>
+        
          </div>
      )
 }

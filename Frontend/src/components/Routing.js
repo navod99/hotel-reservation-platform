@@ -12,7 +12,7 @@ import Login from './Login';
 import Signup from './Signup';
 import Updatehotel from './Updateroom';
 import Dashboard from './SysAdmin/Dashboard';
-
+import ViewRoom from './ViewRoom';
 const Routing = () => {
 
     return (
@@ -23,7 +23,7 @@ const Routing = () => {
                 <Route path='/signup' exact element= {<Signup/>}/>
                 <Route path = '/addhotel' exact element={<Addroom/>}/>
                 <Route path = '/updatehotel' exact element={<Updatehotel/>}/>
-              
+               <Route path = '/viewrooms/:id' exact element={<ViewRoom/>}/>
 
                 <Route path='/admindashboard' exact element= {<Dashboard/>}/>
                 <Route path='/hoteladmindashboard' exact element= {<HotelAdminDashboard/>}/>

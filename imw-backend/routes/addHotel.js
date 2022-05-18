@@ -11,8 +11,9 @@ router.route("/add").post((req, res) => {
     const description = req.body.description;
     const numberofrooms = Number(req.body.numberofrooms);
     const pricepernight = Number(req.body.pricepernight);
+    const hotelID = req.body.hotelID
+     
     
-
 
     const newRoom = new Room({
      
@@ -21,8 +22,8 @@ router.route("/add").post((req, res) => {
     area,
     description,
     numberofrooms,
-    pricepernight
-
+    pricepernight,
+    hotelID
     })
 
     newRoom.save().then(() => {
@@ -103,9 +104,9 @@ router.route("/delete/:id").delete(async (req, res) => {
 
 router.route("/get/:id").get(async (req, res) => {
 
-    let userId = req.params.id;
-    await Room.findById(userId).then(() =>{
-        res.status(200).send({status: "Room Fetched"})
+    let hotelId = req.params.id;
+    await Room.find({hotelID:hotelId}).then((data) =>{
+        res.status(200).send(data)
     }).catch((err) =>{
         console.log(err.message);
         res.status(500).send({status:"Error fetching data", error: err.message});

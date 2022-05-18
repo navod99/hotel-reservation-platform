@@ -27,6 +27,10 @@ const addhotelSchema = new Schema({
     pricepernight:{
         type: Number,
         required: true,
+    },
+    hotelID: {
+        type: String,
+        required:true
     }
 
 
