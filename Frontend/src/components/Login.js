@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -22,6 +22,7 @@ const Login = () => {
     const theme = createTheme();
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
+    const [toggle, setToggle] = useState(false);
     const navigate = useNavigate()
 
     const handleLogin = (e) => {
@@ -46,24 +47,39 @@ const Login = () => {
                     case "systemadmin":
                         navigate('/admindashboard')
                         break;
-                    case "hoteladmin":
-
-                        break;
                     default:
-                    // code block
+                        setToggle(true)
+                        break;
                 }
             }
             else {
                 alert('Invalid credentials')
             }
         }
-        ).catch((err) => {
-            console.log(err)
+        ).catch(() => {
+            axios.post("http://localhost:5000/hotel/validate", { email: email }).then((res) => {
+                let hashPass = res.data.password;
+                const isValid = bcrypt.compareSync(password, hashPass);
+                if (isValid) {
+                    const token = {
+                        id: res.data._id,
+                        firstname: res.data.firstName,
+                        lastname: res.data.lastName,
+                        email: res.data.email,
+                        type: res.data.type
+                    }
+                    sessionStorage.setItem("token", JSON.stringify(token));
+                    navigate('/hoteladmindashboard')
+                }
+                else {
+                    alert('Invalid credentials')
+                }
+            }
+            ).catch((err) => {
+                console.log(err)
+            })
         })
-
-
     }
-
 
     return (
         <ThemeProvider theme={theme}>
