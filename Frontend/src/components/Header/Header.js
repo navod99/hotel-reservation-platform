@@ -13,6 +13,10 @@ const Header = () => {
     const goToLogin = () => {
         navigate('/login')
     }
+
+    const handleLogo = () =>{
+        navigate('/')
+    }
     
     return ( 
             <AppBar
@@ -21,7 +25,7 @@ const Header = () => {
                 sx={{ borderBottom: (theme) => `1px solid ${theme.palette.divider}`,background: '#003580'}}
             >
                 <Toolbar sx={{ flexWrap: 'wrap' }}>
-                    <Typography variant="h6" color="inherit" fontWeight={'bold'} noWrap sx={{ flexGrow: 1 }}>
+                    <Typography onClick={handleLogo} variant="h6" color="inherit" fontWeight={'bold'} noWrap sx={{ flexGrow: 1 }}>
                         Traveler.com
                     </Typography>
                     <nav>
