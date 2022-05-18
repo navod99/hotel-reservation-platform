@@ -20,15 +20,18 @@ import { Stack } from "@mui/material";
 import { spacing } from "@mui/system";
 import { useState } from "react";
 import axios from 'axios';
+import { useParams } from "react-router-dom";
 
 //import { AdapterDayjs } from '@mui//AdapterDayjs'
 // import { MobileDatePicker } from '@mui/x-date-pickers/MobileDatePicker';
 export default function ImgMediaCard() {
-  const [AdultCount, setAdultCount] = useState('');
-  const [ChildCount, setChildCount] = useState('0');
-  const [checkinDate, setCheckInDate] = useState('');
-  const [checkOutDate, setCheckOutDate] = useState('');
-  const [noofRooms, setnoofRooms] = useState('');
+  const res = JSON.parse(sessionStorage.getItem("res"))
+  console.log(res);
+  const [AdultCount, setAdultCount] = useState(res != null ? res.AdultCount : "");
+  const [ChildCount, setChildCount] = useState(res != null ? res.ChildCount : "");
+  const [checkinDate, setCheckInDate] = useState(res != null ? res.checkinDate : "");
+  const [checkOutDate, setCheckOutDate] = useState(res != null ? res.ChekoutDate : "");
+  const [noofRooms, setnoofRooms] = useState(res != null ? res.numberOfRooms : "");
   const user =  JSON.parse (sessionStorage.getItem("token"))
   const submit = () => {
     console.log(user.id)
@@ -41,11 +44,19 @@ export default function ImgMediaCard() {
       UserId:user.id
     };
     console.log(checkOutDate)
-    axios
-      .post('http://localhost:5001/reservation/create', reservation)
-      .then(alert('sucessfully added the reservation'))
-    .catch((err)=>{alert(err)})
-    
+    if (res == null) {
+      axios
+        .post('http://localhost:5001/reservation/create', reservation)
+        .then(alert('sucessfully added the reservation'))
+        .catch((err) => { alert(err) })
+    } else {
+      axios
+        .put(`http://localhost:5001/reservation/Edit/${res._id}`,reservation)
+        .then(alert("updated Sucessfully"))
+        .catch((err) => console(err)
+        )
+      sessionStorage.removeItem("res")
+    }
     
 
 }

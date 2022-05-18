@@ -21,7 +21,8 @@ const Routing = () => {
               <Route path ='/AddReservation'exact element= {<AddReservation/>}/>
                 <Route path='/signup' exact element= {<Signup/>}/>
                 <Route path='/admindashboard' exact element= {<Dashboard/>}/>
-              <Route path='/mybooking' exact element = {<ViewBooking/>}/>
+                <Route path='/mybooking' exact element={<ViewBooking />} />
+                <Route path='/Edit' exact element = {<AddReservation/>}/>
 
             </Routes>
         </BrowserRouter>

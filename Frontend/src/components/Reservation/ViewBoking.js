@@ -13,6 +13,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { Button, CardActions } from "@mui/material";
+import { Link } from "react-router-dom";
 
 export default function MediaControlCard() {
   const token = JSON.parse(sessionStorage.getItem("token"));
@@ -40,7 +41,11 @@ export default function MediaControlCard() {
             .then(alert("Sucessfully Deleted"))
             .catch((err) => { alert(err) })
         
- }
+  }
+  const onEdit = (res) => {
+    sessionStorage.setItem("res", JSON.stringify(res))
+    navigate('/Edit')
+  }
   return (
     <>
       {token != null ? (
@@ -90,8 +95,11 @@ export default function MediaControlCard() {
                       </Grid>
                     </CardContent>
                     <Grid>
-                                  <Button>Edit</Button>
-                                   <Button color="error" onClick={()=>onDelete(reservation._id)}>Cancel</Button>
+                     
+                        <Button onClick={()=>onEdit(reservation)}>Edit</Button>
+                       
+                        <Button color="error" onClick={() => onDelete(reservation._id)}>Cancel</Button>
+                        
                     </Grid>
                   </Stack>
                 </Box>
