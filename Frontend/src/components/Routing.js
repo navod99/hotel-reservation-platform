@@ -24,22 +24,21 @@ const Routing = () => {
     return (
         <BrowserRouter>
             <Routes>
-                <Route path='/' exact element= {<Home/>}/>
-                <Route path='/login' exact element= {<Login/>}/>
-              <Route path ='/AddReservation/:id'exact element= {<AddReservation/>}/>
-                <Route path='/signup' exact element= {<Signup/>}/>
-                <Route path='/admindashboard' exact element= {<Dashboard/>}/>
+                <Route path='/' exact element={<Home />} />
+                <Route path='/login' exact element={<Login />} />
+                <Route path='/AddReservation/:id' exact element={<AddReservation />} />
+                <Route path='/signup' exact element={<Signup />} />
+                <Route path='/admindashboard' exact element={<Dashboard />} />
                 <Route path='/mybooking' exact element={<ViewBooking />} />
-                <Route path='/Edit' exact element = {<AddReservation/>}/>
-                <Route path = '/addhotel' exact element={<Addroom/>}/>
-                <Route path = '/updatehotel' exact element={<Updatehotel/>}/>
-               <Route path = '/viewrooms/:id' exact element={<ViewRoom/>}/>
-
-                <Route path='/admindashboard' exact element= {<Dashboard/>}/>
-                <Route path='/hoteladmindashboard' exact element= {<HotelAdminDashboard/>}/>
-                <Route path='/viewhotels' exact element={<ViewHotel/>}/>
-                <Route path='/hotelview/:id' exact element={<HotelView/>}/>
-                <Route path='/payment' exact element={<Payment/>}/>
+                <Route path='/Edit' exact element={<AddReservation />} />
+                <Route path='/addhotel' exact element={<Addroom />} />
+                <Route path='/updatehotel' exact element={<Updatehotel />} />
+                <Route path='/viewrooms/:id' exact element={<ViewRoom />} />
+                <Route path='/admindashboard' exact element={<Dashboard />} />
+                <Route path='/hoteladmindashboard' exact element={<HotelAdminDashboard />} />
+                <Route path='/viewhotels' exact element={<ViewHotel />} />
+                <Route path='/hotelview/:id' exact element={<HotelView />} />
+                <Route path='/payment' exact element={<Payment />} />
             </Routes>
         </BrowserRouter>
     )

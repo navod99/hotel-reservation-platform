@@ -25,6 +25,8 @@ import axios from 'axios';
 import DashboardView from './DashboardView';
 import Addroom from '../Addroom'
 import { useNavigate } from 'react-router-dom';
+import ExitToAppIcon from '@mui/icons-material/ExitToApp';
+
 const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
@@ -187,11 +189,6 @@ const HotelAdminDAshboard = () => {
                 </ListItemIcon>
                 <ListItemText primary="Manage Bookings" />
             </ListItem>
-            <ListItem>
-                <button onClick={logout}>
-                    logout
-                </button>
-            </ListItem>
 
         </div>
     );
@@ -199,15 +196,15 @@ const HotelAdminDAshboard = () => {
 
 
     const secondaryListItems = (
-        <div>
-            <ListItem button>
-                {/* <ListItemIcon>
-                <ExitToAppIcon/>
-            </ListItemIcon>
-            <ListItemText onClick={goToLogout} primary="Logout" /> */}
-            </ListItem>
-        </div>
-    );
+      <div>
+          <ListItem button>
+              <ListItemIcon className={classes.ListItemIcon}>
+                  <ExitToAppIcon />
+              </ListItemIcon>
+              <ListItemText onClick={logout} primary="Logout" />
+          </ListItem>
+      </div>
+  );
 
     const handleDrawerOpen = () => {
         setOpen(true);
