@@ -14,6 +14,9 @@ import Date from './Reservation/date.js'
 import Signup from './Signup';
 import Updatehotel from './Updateroom';
 import Dashboard from './SysAdmin/Dashboard';
+import HotelView from './Customer/HotelView';
+import Payment from './Customer/Payment';
+
 import ViewBooking from './Reservation/ViewBoking'
 import ViewRoom from './ViewRoom';
 const Routing = () => {
@@ -35,6 +38,8 @@ const Routing = () => {
                 <Route path='/admindashboard' exact element= {<Dashboard/>}/>
                 <Route path='/hoteladmindashboard' exact element= {<HotelAdminDashboard/>}/>
                 <Route path='/viewhotels' exact element={<ViewHotel/>}/>
+                <Route path='/hotelview/:id' exact element={<HotelView/>}/>
+                <Route path='/payment' exact element={<Payment/>}/>
             </Routes>
         </BrowserRouter>
     )
