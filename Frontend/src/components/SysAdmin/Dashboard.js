@@ -30,6 +30,7 @@ import AddHotels from './AddHotels';
 import PreviewIcon from '@mui/icons-material/Preview';
 import ViewHotels from './ViewHotels';
 import { useNavigate } from 'react-router-dom';
+import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 
 const drawerWidth = 240;
 
@@ -170,9 +171,8 @@ const Dashboard = () => {
                     <PreviewIcon />
                 </ListItemIcon>
                 <ListItemText primary="View Hotels" />
-               
+
             </ListItem>
-            <button onClick={logout}>Logout</button>
 
         </div>
     );
@@ -182,10 +182,10 @@ const Dashboard = () => {
     const secondaryListItems = (
         <div>
             <ListItem button>
-                {/* <ListItemIcon>
-                <ExitToAppIcon/>
-            </ListItemIcon>
-            <ListItemText onClick={goToLogout} primary="Logout" /> */}
+                <ListItemIcon className={classes.ListItemIcon}>
+                    <ExitToAppIcon />
+                </ListItemIcon>
+                <ListItemText onClick={logout} primary="Logout" />
             </ListItem>
         </div>
     );

@@ -41,12 +41,14 @@ const Header = () => {
                         >
                             View Hotels
                         </Link>
+                        {token != null ?
                         <Link
                           to='/mybooking'
                           style={{color:'white',textDecoration:'none',marginTop:1,margin:'0.5rem'}}
                         >
                             View Bookings
-                        </Link>
+                        </Link>:<>
+                        </>}
                         <Link
                            to='/'
                            style={{color:'white',textDecoration:'none',margin:'0.5rem',marginRight:'2rem'}}
