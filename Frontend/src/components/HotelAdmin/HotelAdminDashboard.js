@@ -23,7 +23,8 @@ import BookIcon from '@mui/icons-material/Book';
 import PreviewIcon from '@mui/icons-material/Preview';
 import axios from 'axios';
 import DashboardView from './DashboardView';
-
+import Addroom from '../Addroom'
+import { useNavigate } from 'react-router-dom';
 const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
@@ -111,6 +112,14 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const HotelAdminDAshboard = () => {
+
+    const navgate = useNavigate();
+    
+ const logout = () => {
+        sessionStorage.removeItem("token")
+        navgate('/login')
+    }
+
     const classes = useStyles();
     const [header, setHeader] = useState({
         title: "Dashboard",
@@ -152,7 +161,7 @@ const HotelAdminDAshboard = () => {
                 <ListItemText primary="Dashboard" />
             </ListItem>
             <ListItem button onClick={() => {
-                // setView(<AddHotels />);
+                setView(<Addroom />);
                 setHeader({ title: 'Add Package', icon: <AddIcon /> });
             }}>
                 <ListItemIcon className={classes.ListItemIcon}>
@@ -177,6 +186,11 @@ const HotelAdminDAshboard = () => {
                     <BookIcon />
                 </ListItemIcon>
                 <ListItemText primary="Manage Bookings" />
+            </ListItem>
+            <ListItem>
+                <button onClick={logout}>
+                    logout
+                </button>
             </ListItem>
 
         </div>

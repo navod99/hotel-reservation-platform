@@ -29,7 +29,7 @@ import AddIcon from '@mui/icons-material/Add';
 import AddHotels from './AddHotels';
 import PreviewIcon from '@mui/icons-material/Preview';
 import ViewHotels from './ViewHotels';
-
+import { useNavigate } from 'react-router-dom';
 
 const drawerWidth = 240;
 
@@ -118,6 +118,12 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Dashboard = () => {
+    const navgate = useNavigate();
+
+    const logout = () => {
+        sessionStorage.removeItem("token")
+        navgate('/login')
+    }
     const classes = useStyles();
     const [header, setHeader] = useState({
         title: "Dashboard",
@@ -156,13 +162,17 @@ const Dashboard = () => {
             </ListItem>
             <ListItem button onClick={() => {
                 setView(<ViewHotels />);
-                setHeader({ title: 'View Hotels', icon: <PreviewIcon /> });
+                setHeader({
+                    title: 'View Hotels', icon: <PreviewIcon />
+                });
             }}>
                 <ListItemIcon className={classes.ListItemIcon}>
                     <PreviewIcon />
                 </ListItemIcon>
                 <ListItemText primary="View Hotels" />
+               
             </ListItem>
+            <button onClick={logout}>Logout</button>
 
         </div>
     );
