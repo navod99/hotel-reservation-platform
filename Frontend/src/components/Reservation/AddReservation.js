@@ -19,15 +19,14 @@ import Footer from "../Footer/Footer";
 import { Stack } from "@mui/material";
 import { spacing } from "@mui/system";
 import { useState } from "react";
-import axios from 'axios';
+import axios from "axios";
 import { useParams } from "react-router-dom";
 import TaxiModel from "../TaxiModel";
 
 
-//import { AdapterDayjs } from '@mui//AdapterDayjs'
-// import { MobileDatePicker } from '@mui/x-date-pickers/MobileDatePicker';
+import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
 export default function ImgMediaCard() {
-  const res = JSON.parse(sessionStorage.getItem("res"))
+  const res = JSON.parse(sessionStorage.getItem("res"));
   console.log(res);
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
@@ -49,9 +48,9 @@ export default function ImgMediaCard() {
       ChekoutDate: checkOutDate,
       numberOfRooms: noofRooms,
       UserId: user.id,
-      HotelId: params.id
+      HotelId: params.id,
     };
-    console.log(checkOutDate)
+    console.log(checkOutDate);
     if (res == null) {
       axios
         .post('http://localhost:5001/reservation/create', reservation)
@@ -62,15 +61,12 @@ export default function ImgMediaCard() {
         .catch((err) => { alert(err) })
     } else {
       axios
-        .put(`http://localhost:5001/reservation/Edit/${res._id}`,reservation)
+        .put(`http://localhost:5001/reservation/Edit/${res._id}`, reservation)
         .then(alert("updated Sucessfully"))
-        .catch((err) => console(err)
-        )
-      sessionStorage.removeItem("res")
+        .catch((err) => console(err));
+      sessionStorage.removeItem("res");
     }
-    
-
-}
+  };
 
   return (
     <Stack spacing={2}>
@@ -94,8 +90,8 @@ export default function ImgMediaCard() {
               sx={{
                 "& .MuiTextField-root": { m: 1, width: "25ch" },
               }}
-              Validate
-              mt={2} 
+              noValidate
+              mt={2}
             >
               <FormControl variant="standard">
                 <Box
@@ -112,7 +108,8 @@ export default function ImgMediaCard() {
                     type="number"
                     size="medium"
                     value={AdultCount}
-                    onChange = {(e)=>setAdultCount(e.target.value)}
+                    onChange={(e) => setAdultCount(e.target.value)}
+                    required="true"
                   />
                 </Box>
               </FormControl>
@@ -128,7 +125,7 @@ export default function ImgMediaCard() {
                     type="number"
                     size="medium"
                     value={ChildCount}
-                    onChange = {(e)=>setChildCount(e.target.value)}
+                    onChange={(e) => setChildCount(e.target.value)}
                   />
                 </Box>
               </FormControl>
@@ -143,44 +140,52 @@ export default function ImgMediaCard() {
                     variant="standard"
                     size="medium"
                     value={noofRooms}
-                    onChange = {(e)=>{setnoofRooms(e.target.value)}}
+                    onChange={(e) => {
+                      setnoofRooms(e.target.value);
+                    }}
                   />
                 </Box>
               </FormControl>
-              
+
               <FormControl variant="standard">
                 <Box sx={{ display: "flex", alignItems: "flex-end" }}>
-                <InputLabel htmlFor="input-with-icon-adornment">
-                  Check In Date
-                </InputLabel>
-                <Input
-                  id="input-with-icon-adornment"
-                  value = {checkinDate}
-                  onChange = {(e)=>setCheckInDate(e.target.value)}
-                  startAdornment={
-                    <InputAdornment position="start">
-                      <AccountCircle />
-                    </InputAdornment>
-                  }
-                  />
-                  </Box>
+                  <Stack>
+                    <TextField
+                      id="input-with-sx"
+                      label="Check In Date"
+                      InputLabelProps={{
+                        shrink: true,
+                      }}
+                      type={"date"}
+                      variant="standard"
+                      size="medium"
+                      value={checkinDate}
+                      onChange={(e) => {
+                        setCheckInDate(e.target.value);
+                      }}
+                    />
+                  </Stack>
+                </Box>
               </FormControl>
               <FormControl variant="standard">
                 <Box sx={{ display: "flex", alignItems: "flex-end" }}>
-                <InputLabel htmlFor="input-with-icon-adornment">
-                  Check Out Date
-                </InputLabel>
-                <Input
-                  id="input-with-icon-adornment"
-                     value={checkOutDate}
-                     onChange = {(e)=> setCheckOutDate(e.target.value)}                                                                    
-                  startAdornment={
-                    <InputAdornment position="start">
-                      <AccountCircle />
-                    </InputAdornment>
-                  }
-                  />
-                  </Box>
+                  <Stack>
+                    <TextField
+                      id="input-with-sx"
+                      label="Check In Date"
+                      InputLabelProps={{
+                        shrink: true,
+                      }}
+                      type={"date"}
+                      variant="standard"
+                      size="medium"
+                      value={checkOutDate}
+                      onChange={(e) => {
+                        setCheckOutDate(e.target.value);
+                      }}
+                    />
+                  </Stack>
+                </Box>
               </FormControl>
             </Box>
           </CardContent>

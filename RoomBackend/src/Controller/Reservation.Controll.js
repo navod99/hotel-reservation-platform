@@ -1,5 +1,5 @@
 const Reservation = require("../Modal/Reservation.model");
-console.log("hugu")
+
 const addReservation = async (req, res) => {
     console.log("Controll")
   const reservation = new Reservation(req.body);

@@ -54,7 +54,7 @@ export default function ViewRoom() {
           <Header />
           {rooms.map((room)=>(
             <Grid container justifyContent="center">
-              <Card sx={{ display: "flex" }}>
+              <Card sx={{ display: "flex",minWidth: 700,maxWidth:700 }} >
                 <CardMedia
                   component="img"
                   sx={{ width: 350 }}

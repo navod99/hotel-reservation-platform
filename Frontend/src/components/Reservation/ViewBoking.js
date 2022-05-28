@@ -29,7 +29,7 @@ export default function MediaControlCard() {
                         setReservations(res.data);
                     })
                     .catch((err) => {
-                        alert(err);
+                        console.log(err);
                     });
             };
             getBooking();
