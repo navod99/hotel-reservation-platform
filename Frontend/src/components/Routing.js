@@ -19,6 +19,7 @@ import Payment from './Customer/Payment';
 
 import ViewBooking from './Reservation/ViewBoking'
 import ViewRoom from './ViewRoom';
+import PickupDetails from './Customer/PickupDetails';
 const Routing = () => {
 
     return (
@@ -39,6 +40,9 @@ const Routing = () => {
                 <Route path='/viewhotels' exact element={<ViewHotel />} />
                 <Route path='/hotelview/:id' exact element={<HotelView />} />
                 <Route path='/payment' exact element={<Payment />} />
+                <Route path='/pickup' exact element={<PickupDetails />} />
+                
+
             </Routes>
         </BrowserRouter>
     )

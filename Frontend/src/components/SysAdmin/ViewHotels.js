@@ -46,7 +46,6 @@ const ViewHotels = () => {
 
   }, [isToggle])
 
-
   return (
     <Container sx={{ py: 8 }} maxWidth="lg">
       {/* End hero unit */}
@@ -75,9 +74,8 @@ const ViewHotels = () => {
                 </Typography>
               </CardContent>
               <CardActions style={{ display: "flex", justifyContent: "space-around" }}>
-                   <EditModal id={hotel._id} name={hotel.hotelName} districtEdit={hotel.district} descriptionEdit={hotel.description} titleEdit={hotel.title} setIsToggle={setIsToggle} isToggle={isToggle}/> 
+                   <EditModal id={hotel._id} name={hotel.hotelName} districtEdit={hotel.district} descriptionEdit={hotel.description} titleEdit={hotel.title} imageEdit={hotel.image} setIsToggle={setIsToggle} isToggle={isToggle}/> 
                 
-                  <Button size="small" variant="outlined" color='error'>Delete</Button>
               </CardActions>
             </Card>
           </Grid>

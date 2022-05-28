@@ -21,12 +21,17 @@ import { spacing } from "@mui/system";
 import { useState } from "react";
 import axios from 'axios';
 import { useParams } from "react-router-dom";
+import TaxiModel from "../TaxiModel";
+
 
 //import { AdapterDayjs } from '@mui//AdapterDayjs'
 // import { MobileDatePicker } from '@mui/x-date-pickers/MobileDatePicker';
 export default function ImgMediaCard() {
   const res = JSON.parse(sessionStorage.getItem("res"))
   console.log(res);
+  const [open, setOpen] = React.useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
   const [AdultCount, setAdultCount] = useState(res != null ? res.AdultCount : "");
   const [ChildCount, setChildCount] = useState(res != null ? res.ChildCount : "");
   const [checkinDate, setCheckInDate] = useState(res != null ? res.checkinDate : "");
@@ -50,7 +55,10 @@ export default function ImgMediaCard() {
     if (res == null) {
       axios
         .post('http://localhost:5001/reservation/create', reservation)
-        .then(alert('sucessfully added the reservation'))
+        .then(() =>{
+          sessionStorage.setItem("reservation", JSON.stringify(reservation));
+          handleOpen()
+        })
         .catch((err) => { alert(err) })
     } else {
       axios
@@ -67,7 +75,7 @@ export default function ImgMediaCard() {
   return (
     <Stack spacing={2}>
       <Header />
-
+      <TaxiModel handleClose={handleClose} handleOpen={handleOpen} open={open} setOpen={setOpen}/>
       <Grid container justifyContent="center">
         <Card sx={{ minWidth: 700, maxWidth: 700 }}>
           <CardMedia
@@ -174,11 +182,9 @@ export default function ImgMediaCard() {
                   />
                   </Box>
               </FormControl>
-              
             </Box>
           </CardContent>
           <CardActions>
-            
             <Button variant="contained" color="success" onClick={submit}>Reserve</Button>
           </CardActions>
         </Card>

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Footer from '../Footer/Footer'
 import Header from '../Header/Header'
 import Avatar from '@mui/material/Avatar';
@@ -18,10 +18,78 @@ import axios from 'axios'
 
 const Payment = () => {
     const theme = createTheme();
-    const [name,setName] = useState()
-    const [cardNumber,setCardNumber] = useState()
-    const [amount,setAmount] = useState()
-    const[cvc,setCvc] = useState()
+    const [name, setName] = useState()
+    const [cardNumber, setCardNumber] = useState()
+    const [amount, setAmount] = useState()
+    const [email, setEmail] = useState()
+    const [cvc, setCvc] = useState()
+    const [roomname, setRoomname] = useState()
+    const [norooms, setNorooms] = useState()
+    const [checkin, setCheckin] = useState()
+    const [ChekoutDate, setCheckout] = useState()
+    const [adults, setAdults] = useState()
+    const [childeren, setChildern] = useState()
+    let taxi = JSON.parse(sessionStorage.getItem("taxi"))
+
+    useEffect(() => {
+        const rooms = JSON.parse(sessionStorage.getItem("rooms"))
+        const users = JSON.parse(sessionStorage.getItem("token"))
+        const reservation = JSON.parse(sessionStorage.getItem("reservation"))
+        setAmount(rooms.pricepernight)
+        setEmail(users.email)
+        setRoomname(rooms.roomname)
+        setCheckin(reservation.CheckinDate)
+        setCheckout(reservation.ChekoutDate)
+        setNorooms(reservation.numberOfRooms)
+        setAdults(reservation.AdultCount)
+        setChildern(reservation.ChildCount)
+
+    }, [])
+
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        const payment = {
+            "amount": amount,
+            "tomail": email,
+        }
+        const booking = {
+            "roomname": roomname,
+            "numberofrooms": norooms,
+            "checkindate": checkin,
+            "ChekoutDate": ChekoutDate,
+            "adults": adults,
+            "childeren": childeren,
+            "tomail": email,
+        }
+        if (taxi) {
+            const taxiservice = {
+                "address": taxi.address,
+                "roomname": roomname,
+                "type": taxi.type,
+                "tomail": email,
+            }
+        }
+        axios.post("http://localhost:5000/hotel/payment", payment).then((res) => {
+            console.log("asadas")
+            alert("sucessfull payment")
+        }).catch((err) => {
+            console.log(err)
+        })
+        axios.post("http://localhost:5000/hotel/mail", booking).then((res) => {
+
+        }).catch((err) => {
+            console.log(err)
+        })
+        if (taxi) {
+            axios.post("http://localhost:5000/hotel/taxi", taxiservice).then((res) => {
+
+            }).catch((err) => {
+                console.log(err)
+            })
+        }
+
+    }
 
     return (
         <div>
@@ -35,6 +103,7 @@ const Payment = () => {
                             display: 'flex',
                             flexDirection: 'column',
                             alignItems: 'center',
+                            paddingBottom: 8
                         }}
                     >
                         <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
@@ -43,9 +112,9 @@ const Payment = () => {
                         <Typography component="h1" variant="h5">
                             Payment
                         </Typography>
-                        <Box component="form" noValidate sx={{ mt: 3 }}>
+                        <form onSubmit={handleSubmit} style={{ marginTop: 15 }} >
                             <Grid container spacing={2}>
-                            <Grid item xs={12}>
+                                <Grid item xs={12}>
                                     <TextField
                                         required
                                         fullWidth
@@ -72,6 +141,7 @@ const Payment = () => {
                                         id="amount"
                                         label="Amount"
                                         value={amount}
+                                        disabled
                                         onChange={(e) => setAmount(e.target.value)}
                                     />
                                 </Grid>
@@ -96,7 +166,7 @@ const Payment = () => {
                             >
                                 Pay here
                             </Button>
-                        </Box>
+                        </form>
                     </Box>
                 </Container>
             </ThemeProvider>
