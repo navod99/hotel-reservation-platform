@@ -62,14 +62,6 @@ const AddHotels = () => {
         formData.append('type', 'hoteladmin');
 
 
-        // const newHotel = {
-        //     "hotelName": hotelName,
-        //     "title": hotelTitle,
-        //     "description": hotelDescription,
-        //     "district": district,
-        //     "image": image
-            
-        // }
         console.log(formData)
 
         axios.post("http://localhost:5000/hotel/create", formData).then((res) => {
