@@ -25,7 +25,7 @@ const Login = () => {
     const [toggle, setToggle] = useState(false);
     const navigate = useNavigate()
 
-    const handleLogin = (e) => {
+    const handleSubmit = (e) => {
         e.preventDefault()
 
         axios.post("http://localhost:5000/user/validate", { email: email }).then((res) => {
@@ -115,7 +115,8 @@ const Login = () => {
                         <Typography component="h1" variant="h5">
                             Sign in
                         </Typography>
-                        <Box component="form" noValidate sx={{ mt: 1 }}>
+
+                        <form onSubmit={handleSubmit} >
                             <TextField
                                 margin="normal"
                                 required
@@ -148,32 +149,31 @@ const Login = () => {
                                 type="submit"
                                 fullWidth
                                 variant="contained"
-                                onClick={handleLogin}
                                 sx={{ mt: 3, mb: 2 }}
                             >
                                 Sign In
                             </Button>
-                            <Grid container>
-                                <Grid item xs>
-                                    <Link href="#" variant="body2">
-                                        Forgot password?
-                                    </Link>
-                                </Grid>
-                                <Grid item>
-                                    <Link href="/signup" variant="body2">
-                                        {"Don't have an account? Sign Up"}
-                                    </Link>
-                                </Grid>
+                        </form>
+                        <Grid container>
+                            <Grid item xs>
+                                <Link href="#" variant="body2">
+
+                                </Link>
                             </Grid>
-                            <Typography variant="body2" color="text.secondary" align="center" marginTop={5}>
-                                {'Copyright © '}
-                                <Link color="inherit" >
-                                    Traveler.com
-                                </Link>{' '}
-                                {new Date().getFullYear()}
-                                {'.'}
-                            </Typography>
-                        </Box>
+                            <Grid item>
+                                <Link href="/signup" variant="body2">
+                                    {"Don't have an account? Sign Up"}
+                                </Link>
+                            </Grid>
+                        </Grid>
+                        <Typography variant="body2" color="text.secondary" align="center" marginTop={5}>
+                            {'Copyright © '}
+                            <Link color="inherit" >
+                                Traveler.com
+                            </Link>{' '}
+                            {new Date().getFullYear()}
+                            {'.'}
+                        </Typography>
                     </Box>
                 </Grid>
             </Grid>

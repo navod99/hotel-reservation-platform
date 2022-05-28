@@ -21,50 +21,26 @@ import { spacing } from "@mui/system";
 import { useState } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
+import TaxiModel from "../TaxiModel";
+
 
 import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
 export default function ImgMediaCard() {
   const res = JSON.parse(sessionStorage.getItem("res"));
   console.log(res);
-  const [AdultCount, setAdultCount] = useState(
-    res != null ? res.AdultCount : ""
-  );
-  const [ChildCount, setChildCount] = useState(
-    res != null ? res.ChildCount : ""
-  );
-  const [checkinDate, setCheckInDate] = useState(
-    res != null ? res.checkinDate : ""
-  );
-  const [checkOutDate, setCheckOutDate] = useState(
-    res != null ? res.ChekoutDate : ""
-  );
-  const [noofRooms, setnoofRooms] = useState(
-    res != null ? res.numberOfRooms : ""
-  );
-  const params = useParams();
-  const user = JSON.parse(sessionStorage.getItem("token"));
-  const [resv, setResev] = useState([]);
-  const [valid, setValid] = useState(true);
-  console.log(params.id);
-
-  React.useEffect(() => {
-    const getReservations = () => {
-      axios
-        .get(`http://localhost:5001/reservation/user/${user.id}`)
-        .then((res) => {
-          setResev(res.data);
-          console.log(resv);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    };
-    getReservations();
-  }, []);
-  console.log(resv);
-  const submit = (e) => {
-    e.preventDefault();
-    console.log(user.id);
+  const [open, setOpen] = React.useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+  const [AdultCount, setAdultCount] = useState(res != null ? res.AdultCount : "");
+  const [ChildCount, setChildCount] = useState(res != null ? res.ChildCount : "");
+  const [checkinDate, setCheckInDate] = useState(res != null ? res.checkinDate : "");
+  const [checkOutDate, setCheckOutDate] = useState(res != null ? res.ChekoutDate : "");
+  const [noofRooms, setnoofRooms] = useState(res != null ? res.numberOfRooms : "");
+  const params = useParams()
+  const user = JSON.parse(sessionStorage.getItem("token"))
+  console.log(params.id)
+  const submit = () => {
+    console.log(user.id)
     const reservation = {
       AdultCount: AdultCount,
       ChildCount: ChildCount,
@@ -77,11 +53,12 @@ export default function ImgMediaCard() {
     console.log(checkOutDate);
     if (res == null) {
       axios
-        .post("http://localhost:5001/reservation/create", reservation)
-        .then(alert("sucessfully added the reservation"))
-        .catch((err) => {
-          alert(err);
-        });
+        .post('http://localhost:5001/reservation/create', reservation)
+        .then(() =>{
+          sessionStorage.setItem("reservation", JSON.stringify(reservation));
+          handleOpen()
+        })
+        .catch((err) => { alert(err) })
     } else {
       axios
         .put(`http://localhost:5001/reservation/Edit/${res._id}`, reservation)
@@ -94,7 +71,7 @@ export default function ImgMediaCard() {
   return (
     <Stack spacing={2}>
       <Header />
-
+      <TaxiModel handleClose={handleClose} handleOpen={handleOpen} open={open} setOpen={setOpen}/>
       <Grid container justifyContent="center">
         <Card sx={{ minWidth: 700, maxWidth: 700 }}>
           <CardMedia
@@ -213,9 +190,7 @@ export default function ImgMediaCard() {
             </Box>
           </CardContent>
           <CardActions>
-            <Button variant="contained" color="success" onClick={submit}>
-              Reserve
-            </Button>
+            <Button variant="contained" color="success" onClick={submit}>Reserve</Button>
           </CardActions>
         </Card>
       </Grid>

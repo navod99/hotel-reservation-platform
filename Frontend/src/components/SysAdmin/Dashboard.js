@@ -22,6 +22,7 @@ import ExploreIcon from '@mui/icons-material/Explore';
 import MonetizationOnIcon from '@mui/icons-material/MonetizationOn';
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import DashboardView from './DashboardView';
+import DashboardVIew1 from './DashboardVIew1';
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import MenuIcon from '@mui/icons-material/Menu';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
@@ -137,14 +138,14 @@ const Dashboard = () => {
         // if(!token){
         //     history.push("/");
         // }
-        setView(<DashboardView />);
+        setView(<DashboardVIew1 />);
         setHeader({ title: 'Dashboard', icon: <DashboardIcon /> });
     }, []);
 
     const mainListItems = (
         <div>
             <ListItem button onClick={() => {
-                setView(<DashboardView />);
+                setView(<DashboardVIew1 />);
                 setHeader({ title: 'Dashboard', icon: <DashboardIcon /> });
             }}>
                 <ListItemIcon className={classes.ListItemIcon}>
