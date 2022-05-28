@@ -13,6 +13,11 @@ const Header = () => {
     const goToLogin = () => {
         navigate('/login')
     }
+
+    const handleLogo = () =>{
+        navigate('/')
+    }
+    
     const Logout = ()=>{
         sessionStorage.removeItem("token")
         alert("Logout")
@@ -26,7 +31,7 @@ const Header = () => {
                 sx={{ borderBottom: (theme) => `1px solid ${theme.palette.divider}`,background: '#003580'}}
             >
                 <Toolbar sx={{ flexWrap: 'wrap' }}>
-                    <Typography variant="h6" color="inherit" fontWeight={'bold'} noWrap sx={{ flexGrow: 1 }}>
+                    <Typography onClick={handleLogo} variant="h6" color="inherit" fontWeight={'bold'} noWrap sx={{ flexGrow: 1 }}>
                         Traveler.com
                     </Typography>
                     <nav>
@@ -36,12 +41,14 @@ const Header = () => {
                         >
                             View Hotels
                         </Link>
+                        {token != null ?
                         <Link
                           to='/mybooking'
                           style={{color:'white',textDecoration:'none',marginTop:1,margin:'0.5rem'}}
                         >
                             View Bookings
-                        </Link>
+                        </Link>:<>
+                        </>}
                         <Link
                            to='/'
                            style={{color:'white',textDecoration:'none',margin:'0.5rem',marginRight:'2rem'}}

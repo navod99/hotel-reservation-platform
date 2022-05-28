@@ -76,8 +76,10 @@ const ViewHotels = () => {
                   </Typography>
                 </CardContent>
                 <CardActions style={{ display: "flex", justifyContent: "center" }}>
-                  <Link to= {`/viewrooms/${hotel._id}`}>
-                <Button size="small" variant="outlined" color='error'>View</Button>
+                  <Link to= {`/viewrooms/${hotel._id}`} style={{textDecoration:'none'}}>
+                    <Button size="small" variant="outlined" color='error'>
+                      View
+                    </Button>
                   </Link>
                 </CardActions>
               </Card>
