@@ -35,7 +35,7 @@ const ViewHotels = () => {
 
   useEffect(() => {
     function getHotels() {
-      axios.get("http://localhost:5000/hotel").then((res) => {
+      axios.get("http://localhost:8280/hotel/gethotel").then((res) => {
         setHotels(res.data);
       }).catch((err) => {
         alert(err.message);

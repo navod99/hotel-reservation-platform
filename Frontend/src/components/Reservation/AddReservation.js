@@ -19,24 +19,52 @@ import Footer from "../Footer/Footer";
 import { Stack } from "@mui/material";
 import { spacing } from "@mui/system";
 import { useState } from "react";
-import axios from 'axios';
+import axios from "axios";
 import { useParams } from "react-router-dom";
 
-//import { AdapterDayjs } from '@mui//AdapterDayjs'
-// import { MobileDatePicker } from '@mui/x-date-pickers/MobileDatePicker';
+import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
 export default function ImgMediaCard() {
-  const res = JSON.parse(sessionStorage.getItem("res"))
+  const res = JSON.parse(sessionStorage.getItem("res"));
   console.log(res);
-  const [AdultCount, setAdultCount] = useState(res != null ? res.AdultCount : "");
-  const [ChildCount, setChildCount] = useState(res != null ? res.ChildCount : "");
-  const [checkinDate, setCheckInDate] = useState(res != null ? res.checkinDate : "");
-  const [checkOutDate, setCheckOutDate] = useState(res != null ? res.ChekoutDate : "");
-  const [noofRooms, setnoofRooms] = useState(res != null ? res.numberOfRooms : "");
-  const params = useParams()
-  const user = JSON.parse(sessionStorage.getItem("token"))
-  console.log(params.id)
-  const submit = () => {
-    console.log(user.id)
+  const [AdultCount, setAdultCount] = useState(
+    res != null ? res.AdultCount : ""
+  );
+  const [ChildCount, setChildCount] = useState(
+    res != null ? res.ChildCount : ""
+  );
+  const [checkinDate, setCheckInDate] = useState(
+    res != null ? res.checkinDate : ""
+  );
+  const [checkOutDate, setCheckOutDate] = useState(
+    res != null ? res.ChekoutDate : ""
+  );
+  const [noofRooms, setnoofRooms] = useState(
+    res != null ? res.numberOfRooms : ""
+  );
+  const params = useParams();
+  const user = JSON.parse(sessionStorage.getItem("token"));
+  const [resv, setResev] = useState([]);
+  const [valid, setValid] = useState(true);
+  console.log(params.id);
+
+  React.useEffect(() => {
+    const getReservations = () => {
+      axios
+        .get(`http://localhost:5001/reservation/user/${user.id}`)
+        .then((res) => {
+          setResev(res.data);
+          console.log(resv);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    };
+    getReservations();
+  }, []);
+  console.log(resv);
+  const submit = (e) => {
+    e.preventDefault();
+    console.log(user.id);
     const reservation = {
       AdultCount: AdultCount,
       ChildCount: ChildCount,
@@ -44,25 +72,24 @@ export default function ImgMediaCard() {
       ChekoutDate: checkOutDate,
       numberOfRooms: noofRooms,
       UserId: user.id,
-      HotelId: params.id
+      HotelId: params.id,
     };
-    console.log(checkOutDate)
+    console.log(checkOutDate);
     if (res == null) {
       axios
-        .post('http://localhost:5001/reservation/create', reservation)
-        .then(alert('sucessfully added the reservation'))
-        .catch((err) => { alert(err) })
+        .post("http://localhost:5001/reservation/create", reservation)
+        .then(alert("sucessfully added the reservation"))
+        .catch((err) => {
+          alert(err);
+        });
     } else {
       axios
-        .put(`http://localhost:5001/reservation/Edit/${res._id}`,reservation)
+        .put(`http://localhost:5001/reservation/Edit/${res._id}`, reservation)
         .then(alert("updated Sucessfully"))
-        .catch((err) => console(err)
-        )
-      sessionStorage.removeItem("res")
+        .catch((err) => console(err));
+      sessionStorage.removeItem("res");
     }
-    
-
-}
+  };
 
   return (
     <Stack spacing={2}>
@@ -86,8 +113,8 @@ export default function ImgMediaCard() {
               sx={{
                 "& .MuiTextField-root": { m: 1, width: "25ch" },
               }}
-              Validate
-              mt={2} 
+              noValidate
+              mt={2}
             >
               <FormControl variant="standard">
                 <Box
@@ -104,7 +131,8 @@ export default function ImgMediaCard() {
                     type="number"
                     size="medium"
                     value={AdultCount}
-                    onChange = {(e)=>setAdultCount(e.target.value)}
+                    onChange={(e) => setAdultCount(e.target.value)}
+                    required="true"
                   />
                 </Box>
               </FormControl>
@@ -120,7 +148,7 @@ export default function ImgMediaCard() {
                     type="number"
                     size="medium"
                     value={ChildCount}
-                    onChange = {(e)=>setChildCount(e.target.value)}
+                    onChange={(e) => setChildCount(e.target.value)}
                   />
                 </Box>
               </FormControl>
@@ -135,51 +163,59 @@ export default function ImgMediaCard() {
                     variant="standard"
                     size="medium"
                     value={noofRooms}
-                    onChange = {(e)=>{setnoofRooms(e.target.value)}}
+                    onChange={(e) => {
+                      setnoofRooms(e.target.value);
+                    }}
                   />
                 </Box>
               </FormControl>
-              
+
               <FormControl variant="standard">
                 <Box sx={{ display: "flex", alignItems: "flex-end" }}>
-                <InputLabel htmlFor="input-with-icon-adornment">
-                  Check In Date
-                </InputLabel>
-                <Input
-                  id="input-with-icon-adornment"
-                  value = {checkinDate}
-                  onChange = {(e)=>setCheckInDate(e.target.value)}
-                  startAdornment={
-                    <InputAdornment position="start">
-                      <AccountCircle />
-                    </InputAdornment>
-                  }
-                  />
-                  </Box>
+                  <Stack>
+                    <TextField
+                      id="input-with-sx"
+                      label="Check In Date"
+                      InputLabelProps={{
+                        shrink: true,
+                      }}
+                      type={"date"}
+                      variant="standard"
+                      size="medium"
+                      value={checkinDate}
+                      onChange={(e) => {
+                        setCheckInDate(e.target.value);
+                      }}
+                    />
+                  </Stack>
+                </Box>
               </FormControl>
               <FormControl variant="standard">
                 <Box sx={{ display: "flex", alignItems: "flex-end" }}>
-                <InputLabel htmlFor="input-with-icon-adornment">
-                  Check Out Date
-                </InputLabel>
-                <Input
-                  id="input-with-icon-adornment"
-                     value={checkOutDate}
-                     onChange = {(e)=> setCheckOutDate(e.target.value)}                                                                    
-                  startAdornment={
-                    <InputAdornment position="start">
-                      <AccountCircle />
-                    </InputAdornment>
-                  }
-                  />
-                  </Box>
+                  <Stack>
+                    <TextField
+                      id="input-with-sx"
+                      label="Check In Date"
+                      InputLabelProps={{
+                        shrink: true,
+                      }}
+                      type={"date"}
+                      variant="standard"
+                      size="medium"
+                      value={checkOutDate}
+                      onChange={(e) => {
+                        setCheckOutDate(e.target.value);
+                      }}
+                    />
+                  </Stack>
+                </Box>
               </FormControl>
-              
             </Box>
           </CardContent>
           <CardActions>
-            
-            <Button variant="contained" color="success" onClick={submit}>Reserve</Button>
+            <Button variant="contained" color="success" onClick={submit}>
+              Reserve
+            </Button>
           </CardActions>
         </Card>
       </Grid>
