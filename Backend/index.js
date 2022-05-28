@@ -5,6 +5,7 @@ const dotenv = require('dotenv');
 const connectDB = require("./src/config/config");
 const UserAPI = require("./src/api/user.api");
 const HotelAPI = require("./src/api/hotel.api");
+const TaxiAPI = require("./src/api/taxi.api");
 
 const PORT = process.env.PORT || 5000;
 const app = express();
@@ -17,6 +18,7 @@ connectDB();
 
 app.use("/user", UserAPI());
 app.use("/hotel", HotelAPI);
+app.use("/taxi", TaxiAPI());
 
 
 app.listen(PORT, () => {
