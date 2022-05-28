@@ -12,11 +12,7 @@ app.use(cors());
 app.use(bodyParser.json());
 
 connectDB();
-// app.use((ctx) => {
-//     ctx.set('Content-Type', 'text/html');
-//     ctx.body = '<h3>Note found</h3>';
-//     ctx.status = 404;
-// });
+
 
 app.listen(PORT, () => {
     console.log(`App listening at http://localhost:${PORT}`);
