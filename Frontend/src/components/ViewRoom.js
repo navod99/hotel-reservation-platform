@@ -22,8 +22,9 @@ export default function ViewRoom() {
     const token = JSON.parse (sessionStorage.getItem("token"))
   const navigate = useNavigate();
   
-    const reserve = (hotelID) => {
+    const reserve = (hotelID,room) => {
         if (token != null) {
+          sessionStorage.setItem("rooms", JSON.stringify(room));
             navigate(`/AddReservation/${hotelID}`)
       }else{
         alert('Please Login First')
@@ -53,7 +54,7 @@ export default function ViewRoom() {
           <Header />
           {rooms.map((room)=>(
             <Grid container justifyContent="center">
-              <Card sx={{ display: "flex" }}>
+              <Card sx={{ display: "flex",minWidth: 700,maxWidth:700 }} >
                 <CardMedia
                   component="img"
                   sx={{ width: 350 }}
@@ -91,7 +92,7 @@ export default function ViewRoom() {
                     </CardContent>
                     
                      
-                              <Button variant="contained" color="success" onClick={() => reserve(room.hotelID)}>Reserve {room.pricepernight}</Button>
+                              <Button variant="contained" color="success" onClick={() => reserve(room.hotelID,room)}>Reserve {room.pricepernight}</Button>
                        
                         
                         

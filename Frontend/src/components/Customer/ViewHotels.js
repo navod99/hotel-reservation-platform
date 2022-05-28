@@ -35,7 +35,7 @@ const ViewHotels = () => {
 
   useEffect(() => {
     function getHotels() {
-      axios.get("http://localhost:5000/hotel").then((res) => {
+      axios.get("http://localhost:8280/hotel/gethotel").then((res) => {
         setHotels(res.data);
       }).catch((err) => {
         alert(err.message);
@@ -76,7 +76,7 @@ const ViewHotels = () => {
                   </Typography>
                 </CardContent>
                 <CardActions style={{ display: "flex", justifyContent: "center" }}>
-                  <Link to={`/hotelview/${hotel._id}`} style={{textDecoration:'none'}}>
+                  <Link to= {`/viewrooms/${hotel._id}`} style={{textDecoration:'none'}}>
                     <Button size="small" variant="outlined" color='error'>
                       View
                     </Button>

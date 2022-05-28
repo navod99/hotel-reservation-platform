@@ -11,10 +11,13 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
-
 const bcrypt = require('bcryptjs');
+import Snackbar from '@mui/material/Snackbar';
+import MuiAlert from '@mui/material/Alert';
 
-
+const Alert = React.forwardRef(function Alert(props, ref) {
+    return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
 const useStyles = makeStyles((theme) => ({
 
     field: {
@@ -43,6 +46,20 @@ const AddHotels = () => {
     const [lastName, setLastName] = useState('')
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
+    const [open1, setOpen1] = React.useState(false);
+    const navigate = useNavigate()
+
+    const handleClose1 = (event, reason) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+
+        setOpen1(false);
+    };
+
+    const handleClick = () => {
+        setOpen1(true);
+    };
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -62,158 +79,169 @@ const AddHotels = () => {
         formData.append('type', 'hoteladmin');
 
 
+        // const newHotel = {
+        //     "hotelName": hotelName,
+        //     "title": hotelTitle,
+        //     "description": hotelDescription,
+        //     "district": district,
+        //     "image": image
+
+        // }
         console.log(formData)
 
         axios.post("http://localhost:5000/hotel/create", formData).then((res) => {
-            alert('Hotel Added successfully')
+            handleClick()
         }).catch((err) => {
             console.log(err)
         })
     }
 
-
     return (
-        <Container style={{ marginTop: "10px" }} size="sm">
-            <Paper elevation={8} sx={{ p: 2, margin: 'auto', maxWidth: 800, flexGrow: 1 }}>
-                <Typography
-                    variant="h5"
-                    color="textPrimary"
-                    component="h2"
-                    gutterBottom
-                    align='center'
-                >
-                    Add Hotel
-                </Typography>
-                <form onSubmit={handleSubmit} encType="multipart/form-data">
-                    <TextField className={classes.field}
-                        onChange={(e) => setHotelName(e.target.value)}
-                        label="Hotel Name"
-                        variant="outlined"
-                        color="secondary"
-                        fullWidth
-                        required
+        <>
+            <Snackbar open={open1} autoHideDuration={3000} onClose={handleClose1} anchorOrigin={{
+                vertical: "top",
+                horizontal: "center"
+            }}>
 
-                    />
-                    <label style={{ fontSize: '1.3rem', color: 'grey', marginLeft: 5 }}>
-                        Add an image
-                    </label>
-                    <input
-                        type="file"
-                        accept=".png, .jpg, .jpeg"
-                        filename="image"
-                        style={{ marginLeft: 16 }}
-                        onChange={(e) => setImage(e.target.files[0])} />
-                    <TextField className={classes.field}
-                        onChange={(e) => setHotelTitle(e.target.value)}
-                        label="How many Stars ?"
-                        variant="outlined"
-                        color="secondary"
-                        fullWidth
-                    />
-                    <TextField className={classes.field}
-                        onChange={(e) => setDistrict(e.target.value)}
-                        label="District"
-                        variant="outlined"
-                        color="secondary"
-                        fullWidth
-                    />
+                <Alert onClose={handleClose1} severity="success" sx={{ width: '100%' }}>
 
-                    <TextField className={classes.field}
-                        onChange={(e) => setHotelDescription(e.target.value)}
-                        label="Description"
-                        variant="outlined"
-                        color="secondary"
-                        multiline
-                        minRows={4}
-                        fullWidth
-                    />
-                    <TextField className={classes.field}
-                        // onChange={(e) => setDescription(e.target.value)}
-                        label="Hotel Location"
-                        variant="outlined"
-                        color="secondary"
-                        multiline
-                        minRows={4}
-                        fullWidth
-                    />
-                    <Box sx={{ mt: 5 }}>
-                        <Typography
-                            variant="h5"
-                            color="textPrimary"
-                            component="h2"
-                            gutterBottom
-                            align='center'
-                        >
-                            Hotel Admin Details
-                        </Typography>
-                        <Grid container spacing={2}>
-                            <Grid item xs={12} sm={6}>
-                                <TextField
-                                    autoComplete="given-name"
-                                    name="firstName"
-                                    required
-                                    fullWidth
-                                    id="firstName"
-                                    label="First Name"
-                                    value={firstName}
-                                    onChange={(e) => setFirstName(e.target.value)}
-                                    autoFocus
-                                />
-                            </Grid>
-                            <Grid item xs={12} sm={6}>
-                                <TextField
-                                    required
-                                    fullWidth
-                                    id="lastName"
-                                    label="Last Name"
-                                    name="lastName"
-                                    value={lastName}
-                                    onChange={(e) => setLastName(e.target.value)}
-                                    autoComplete="family-name"
-                                />
-                            </Grid>
-                            <Grid item xs={12}>
-                                <TextField
-                                    required
-                                    fullWidth
-                                    id="email"
-                                    label="Email Address"
-                                    name="email"
-                                    value={email}
-                                    onChange={(e) => setEmail(e.target.value)}
-                                    autoComplete="email"
-                                />
-                            </Grid>
-                            <Grid item xs={12}>
-                                <TextField
-                                    required
-                                    fullWidth
-                                    name="password"
-                                    label="Password"
-                                    type="password"
-                                    id="password"
-                                    value={password}
-                                    onChange={(e) => setPassword(e.target.value)}
-                                    autoComplete="new-password"
-                                />
-                            </Grid>
-
-                        </Grid>
-                    </Box>
-                    <div style={{ textAlign: 'center', marginTop: "50px" }}>
-                        <Button
-                            type="submit"
+                    `Sucessfully Added!`
+                </Alert>
+            </Snackbar>
+            <Container style={{ marginTop: "10px" }} size="sm">
+                <Paper elevation={8} sx={{ p: 2, margin: 'auto', maxWidth: 800, flexGrow: 1 }}>
+                    <Typography
+                        variant="h5"
+                        color="textPrimary"
+                        component="h2"
+                        gutterBottom
+                        align='center'
+                    >
+                        Add Hotel
+                    </Typography>
+                    <form onSubmit={handleSubmit} encType="multipart/form-data">
+                        <TextField className={classes.field}
+                            onChange={(e) => setHotelName(e.target.value)}
+                            label="Hotel Name"
+                            variant="outlined"
                             color="secondary"
-                            variant="contained"
-                            size="large"
-                        >
-                            Add Hotel
-                        </Button>
-                    </div>
+                            fullWidth
+                            required
 
-                </form>
-            </Paper>
-        </Container>
+                        />
+                        <label style={{ fontSize: '1.3rem', color: 'grey', marginLeft: 5 }}>
+                            Add an image
+                        </label>
+                        <input
+                            type="file"
+                            accept=".png, .jpg, .jpeg"
+                            filename="image"
+                            style={{ marginLeft: 16 }}
+                            onChange={(e) => setImage(e.target.files[0])} />
+                        <TextField className={classes.field}
+                            onChange={(e) => setHotelTitle(e.target.value)}
+                            label="How many Stars ?"
+                            variant="outlined"
+                            color="secondary"
+                            fullWidth
+                        />
+                        <TextField className={classes.field}
+                            onChange={(e) => setDistrict(e.target.value)}
+                            label="District"
+                            variant="outlined"
+                            color="secondary"
+                            fullWidth
+                            required
+                        />
+
+                        <TextField className={classes.field}
+                            onChange={(e) => setHotelDescription(e.target.value)}
+                            label="Description"
+                            variant="outlined"
+                            color="secondary"
+                            multiline
+                            minRows={4}
+                            fullWidth
+                        />
+                        <Box sx={{ mt: 5 }}>
+                            <Typography
+                                variant="h5"
+                                color="textPrimary"
+                                component="h2"
+                                gutterBottom
+                                align='center'
+                            >
+                                Hotel Admin Details
+                            </Typography>
+                            <Grid container spacing={2}>
+                                <Grid item xs={12} sm={6}>
+                                    <TextField
+                                        autoComplete="given-name"
+                                        name="firstName"
+                                        required
+                                        fullWidth
+                                        id="firstName"
+                                        label="First Name"
+                                        value={firstName}
+                                        onChange={(e) => setFirstName(e.target.value)}
+                                        autoFocus
+                                    />
+                                </Grid>
+                                <Grid item xs={12} sm={6}>
+                                    <TextField
+                                        required
+                                        fullWidth
+                                        id="lastName"
+                                        label="Last Name"
+                                        name="lastName"
+                                        value={lastName}
+                                        onChange={(e) => setLastName(e.target.value)}
+                                        autoComplete="family-name"
+                                    />
+                                </Grid>
+                                <Grid item xs={12}>
+                                    <TextField
+                                        required
+                                        fullWidth
+                                        id="email"
+                                        label="Email Address"
+                                        name="email"
+                                        value={email}
+                                        onChange={(e) => setEmail(e.target.value)}
+                                        autoComplete="email"
+                                    />
+                                </Grid>
+                                <Grid item xs={12}>
+                                    <TextField
+                                        required
+                                        fullWidth
+                                        name="password"
+                                        label="Password"
+                                        type="password"
+                                        id="password"
+                                        value={password}
+                                        onChange={(e) => setPassword(e.target.value)}
+                                        autoComplete="new-password"
+                                    />
+                                </Grid>
+
+                            </Grid>
+                        </Box>
+                        <div style={{ textAlign: 'center', marginTop: "50px" }}>
+                            <Button
+                                type="submit"
+                                color="secondary"
+                                variant="contained"
+                                size="large"
+                            >
+                                Add Hotel
+                            </Button>
+                        </div>
+
+                    </form>
+                </Paper>
+            </Container>
+        </>
     )
 }
 

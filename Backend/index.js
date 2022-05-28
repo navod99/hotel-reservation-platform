@@ -13,6 +13,7 @@ const app = express();
 app.use(cors());
 app.use(bodyParser.json());
 
+
 connectDB();
 
 app.use("/user", UserAPI());

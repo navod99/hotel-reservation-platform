@@ -22,6 +22,7 @@ import ExploreIcon from '@mui/icons-material/Explore';
 import MonetizationOnIcon from '@mui/icons-material/MonetizationOn';
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import DashboardView from './DashboardView';
+import DashboardVIew1 from './DashboardVIew1';
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import MenuIcon from '@mui/icons-material/Menu';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
@@ -30,6 +31,7 @@ import AddHotels from './AddHotels';
 import PreviewIcon from '@mui/icons-material/Preview';
 import ViewHotels from './ViewHotels';
 import { useNavigate } from 'react-router-dom';
+import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 
 const drawerWidth = 240;
 
@@ -136,14 +138,14 @@ const Dashboard = () => {
         // if(!token){
         //     history.push("/");
         // }
-        setView(<DashboardView />);
+        setView(<DashboardVIew1 />);
         setHeader({ title: 'Dashboard', icon: <DashboardIcon /> });
     }, []);
 
     const mainListItems = (
         <div>
             <ListItem button onClick={() => {
-                setView(<DashboardView />);
+                setView(<DashboardVIew1 />);
                 setHeader({ title: 'Dashboard', icon: <DashboardIcon /> });
             }}>
                 <ListItemIcon className={classes.ListItemIcon}>
@@ -170,9 +172,8 @@ const Dashboard = () => {
                     <PreviewIcon />
                 </ListItemIcon>
                 <ListItemText primary="View Hotels" />
-               
+
             </ListItem>
-            <button onClick={logout}>Logout</button>
 
         </div>
     );
@@ -182,10 +183,10 @@ const Dashboard = () => {
     const secondaryListItems = (
         <div>
             <ListItem button>
-                {/* <ListItemIcon>
-                <ExitToAppIcon/>
-            </ListItemIcon>
-            <ListItemText onClick={goToLogout} primary="Logout" /> */}
+                <ListItemIcon className={classes.ListItemIcon}>
+                    <ExitToAppIcon />
+                </ListItemIcon>
+                <ListItemText onClick={logout} primary="Logout" />
             </ListItem>
         </div>
     );

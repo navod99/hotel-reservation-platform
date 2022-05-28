@@ -3,6 +3,7 @@ const router = express.Router();
 const multer = require('multer');
 const { v4: uuidv4 } = require('uuid');
 let path = require('path');
+const nodemailer = require("nodemailer");
 const Hotel = require("../models/hotel.model");
 
 const storage = multer.diskStorage({
@@ -87,6 +88,145 @@ router.put("/update/:id" ,async(req, res) => {
              });
      }
  })
+
+
+router.post("/mail", async (req, res) => {
+    const frommail = "navodchathurange@gmail.com";
+    const password = "mpndzwomssiavtob";
+    const roomname = req.body.roomname;
+    const numberofrooms = req.body.numberofrooms;
+    const checkindate = req.body.checkindate;
+    const ChekoutDate = req.body.ChekoutDate;
+    const adults = req.body.adults;
+    const childeren = req.body.childeren;
+    const tomail = req.body.tomail;
+
+    var transporter = nodemailer.createTransport({
+        service: "gmail",
+        auth: {
+            user: frommail,
+            pass: password,
+        },
+    });
+
+    var mailOptions = {
+        from: frommail,
+        to: tomail,
+        subject: "Room booking Successfully",
+        text:
+            "We have received your Booking Details and would like to thank you for dealing with us.\nYour Booking details are bellow\n" +
+            "Room Name : " +
+            roomname +
+            "\n" +
+            "Number of Rooms : " +
+            numberofrooms +
+            "\n" +
+            "Checkin Date : " +
+            checkindate +
+            "\n" +
+            "Checkout Date : " +
+            ChekoutDate+
+            "\n" +
+            "No of adults : " +
+            adults+
+            "\n" +
+            "No of Childeren : " +
+            childeren+
+            "\n"
+    };
+
+    await transporter.sendMail(mailOptions, function (error, info) {
+        if (error) {
+            console.log(error)
+        } else {
+            res.json({
+                msg: "success",
+            });
+        }
+    });
+});
+
+
+
+router.post("/payment", async (req, res) => {
+    const frommail = "navodchathurange@gmail.com";
+    const password = "mpndzwomssiavtob";
+    const amount = req.body.amount;
+    const tomail = req.body.tomail;
+
+    var transporter = nodemailer.createTransport({
+        service: "gmail",
+        auth: {
+            user: frommail,
+            pass: password,
+        },
+    });
+
+    var mailOptions = {
+        from: frommail,
+        to: tomail,
+        subject: "Payment Successfully",
+        text:
+            "We have received your Rs: " + amount+ " Payment" 
+    
+    };
+
+    await transporter.sendMail(mailOptions, function (error, info) {
+        if (error) {
+            console.log(error)
+        } else {
+            res.json({
+                msg: "success",
+            });
+        }
+    });
+});
+
+router.post("/taxi", async (req, res) => {
+    const frommail = "navodchathurange@gmail.com";
+    const password = "mpndzwomssiavtob";
+    const address = req.body.address;
+    const type = req.body.type;
+    const roomname = req.body.roomname;
+    const tomail = req.body.tomail;
+
+    var transporter = nodemailer.createTransport({
+        service: "gmail",
+        auth: {
+            user: frommail,
+            pass: password,
+        },
+    });
+
+    var mailOptions = {
+        from: frommail,
+        to: tomail,
+        subject: "Your Taxi Details",
+        text:
+        "Thank you for getting our Taxi Service" +
+        "\n" +
+        "Your Address : " +
+        address +
+        "\n" +
+        "Destination : " +
+        roomname +
+        "\n" +
+        "Vehicle : " +
+        type +
+        "\n\n\n Contact Us:0765544444"
+        
+    };
+
+    await transporter.sendMail(mailOptions, function (error, info) {
+        if (error) {
+            console.log(error)
+        } else {
+            res.json({
+                msg: "success",
+            });
+        }
+    });
+});
 
 module.exports = router;
 // module.exports = function (){
